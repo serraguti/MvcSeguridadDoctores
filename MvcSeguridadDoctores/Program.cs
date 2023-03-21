@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MvcSeguridadDoctores.Data;
 using MvcSeguridadDoctores.Repositories;
 
@@ -7,6 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+
+//INCLUIMOS LAS POLITICAS DE ACCESO
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("PERMISOSELEVADOS",
+        policy =>
+        policy.RequireRole("PSIQUIATRIA", "CARDIOLOGIA"));
+    options.AddPolicy("AdminOnly",
+        policy => policy.RequireClaim("Administrador"));
+});
 
 // Add services to the container.
 string connectionString =
@@ -21,7 +32,12 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-}).AddCookie();
+}).AddCookie(
+    CookieAuthenticationDefaults.AuthenticationScheme, 
+    config =>
+    {
+        config.AccessDeniedPath = "/Managed/ErrorAcceso";
+    });
 
 
 builder.Services.AddControllersWithViews(options => 

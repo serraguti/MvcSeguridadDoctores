@@ -17,6 +17,11 @@ namespace MvcSeguridadDoctores.Controllers
             this.repo = repo;
         }
 
+        public IActionResult ErrorAcceso()
+        {
+            return View();
+        }
+
         public IActionResult LogIn()
         {
             return View();
@@ -39,7 +44,14 @@ namespace MvcSeguridadDoctores.Controllers
                 identity.AddClaim
                     (new Claim(ClaimTypes.NameIdentifier, doctor.IdDoctor.ToString()));
                 identity.AddClaim
-                    (new Claim(ClaimTypes.Role, doctor.Especialidad));
+                    (new Claim(ClaimTypes.Role, 
+                    doctor.Especialidad));
+
+                if (doctor.IdDoctor == 983)
+                {
+                    identity.AddClaim(new Claim("Administrador"
+                        , "Soy el admin"));
+                }
 
                 ClaimsPrincipal user = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync

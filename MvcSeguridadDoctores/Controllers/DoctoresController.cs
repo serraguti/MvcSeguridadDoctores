@@ -16,6 +16,12 @@ namespace MvcSeguridadDoctores.Controllers
             this.repo = repo;
         }
 
+        [AuthorizeDoctores(Policy = "AdminOnly")]
+        public IActionResult AdminDoctores()
+        {
+            return View();
+        }
+
         [AuthorizeDoctores]
         public async Task<IActionResult> PerfilDoctor()
         {
@@ -33,7 +39,7 @@ namespace MvcSeguridadDoctores.Controllers
             return View(enfermos);
         }
 
-        [AuthorizeDoctores]
+        [AuthorizeDoctores(Policy = "PERMISOSELEVADOS")]
         public async Task<IActionResult> DeleteEnfermo(int id)
         {
             Enfermo enfermo =
