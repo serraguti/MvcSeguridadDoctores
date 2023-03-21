@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MvcSeguridadDoctores.Models.Enfermo>
+
+@{
+    ViewData["Title"] = "Enfermos";
+}
+
+<h1>Listado Enfermos</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Inscripción</th>
+            <th>Apellido</th>
+            <th>Dirección</th>
+            <th>Fecha Nacimiento</th>
+            <th>Sexo</th>
+            <th>Seguridad social</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@item.Inscripcion</td>
+            <td>@item.Apellido</td>
+            <td>@item.Direccion</td>
+            <td>@item.FechaNacimiento</td>
+            <td>@item.Sexo</td>
+            <td>@item.SeguridadSocial</td>
+            <td>
+                <a asp-controller="Doctores"
+                    asp-action="DeleteEnfermo"
+                    asp-route-id="@item.Inscripcion"
+                    class="btn btn-danger">
+                    Delete
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

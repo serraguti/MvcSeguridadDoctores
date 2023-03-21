@@ -1,0 +1,19 @@
+﻿@model Enfermo
+
+<a asp-controller="Doctores"
+   asp-action="Enfermos">
+    Volver a Enfermos
+</a>
+
+<h2 style="color:red">
+    ¿Desea eliminar al enfermo 
+    <span style="color:blue">
+        <b>@Model.Apellido</b>?
+    </span>
+</h2>
+<form method="post">
+    <input type="hidden" name="id" value="@Model.Inscripcion"/>
+    <button class="btn btn-danger">
+        Delete
+    </button>
+</form>
