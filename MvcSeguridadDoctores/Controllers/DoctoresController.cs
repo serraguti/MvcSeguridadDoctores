@@ -33,6 +33,7 @@ namespace MvcSeguridadDoctores.Controllers
             return View(enfermos);
         }
 
+        [AuthorizeDoctores]
         public async Task<IActionResult> DeleteEnfermo(int id)
         {
             Enfermo enfermo =
@@ -40,6 +41,7 @@ namespace MvcSeguridadDoctores.Controllers
             return View(enfermo);
         }
 
+        [AuthorizeDoctores]
         [HttpPost]
         [ActionName("DeleteEnfermo")]
         public async Task<IActionResult> EliminarEnfermo(int id)

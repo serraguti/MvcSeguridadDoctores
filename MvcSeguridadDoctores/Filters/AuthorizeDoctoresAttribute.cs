@@ -15,13 +15,19 @@ namespace MvcSeguridadDoctores.Filters
                 context.RouteData.Values["controller"].ToString();
             string action =
                 context.RouteData.Values["action"].ToString();
+            string idenfermo = "";
+            if (context.RouteData.Values.ContainsKey("id"))
+            {
+                idenfermo = context.RouteData.Values["id"].ToString();
+            }
             ITempDataProvider provider =
                 context.HttpContext.RequestServices
                 .GetService<ITempDataProvider>();
             var TempData = provider.LoadTempData(context.HttpContext);
             TempData["controller"] = controller;
             TempData["action"] = action;
-            
+            TempData["id"] = idenfermo;
+
             provider.SaveTempData(context.HttpContext, TempData);
 
             if (user.Identity.IsAuthenticated == false)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using MvcSeguridadDoctores.Models;
 using MvcSeguridadDoctores.Repositories;
 using System.Security.Claims;
@@ -44,8 +45,16 @@ namespace MvcSeguridadDoctores.Controllers
                 await HttpContext.SignInAsync
                     (CookieAuthenticationDefaults.AuthenticationScheme
                     , user);
+                string controller = TempData["controller"].ToString();
+                string action = TempData["action"].ToString();
+                string id = TempData["id"].ToString();
 
-                return RedirectToAction("PerfilDoctor", "Doctores");
+                return RedirectToAction(action, controller
+                    , new {  id = id });
+                //return RedirectToAction("DeleteEnfermo"
+                //    , "Doctores", new { id = 63827 });
+                //return RedirectToAction("PerfilDoctor"
+                //    , "Doctores", new { id = 123 });
             }
             else
             {
