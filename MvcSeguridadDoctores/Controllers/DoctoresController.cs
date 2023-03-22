@@ -16,6 +16,12 @@ namespace MvcSeguridadDoctores.Controllers
             this.repo = repo;
         }
 
+        [AuthorizeDoctores(Policy = "SoloRicos")]
+        public IActionResult DoctoresRicos()
+        {
+            return View();
+        }
+
         [AuthorizeDoctores(Policy = "AdminOnly")]
         public IActionResult AdminDoctores()
         {
